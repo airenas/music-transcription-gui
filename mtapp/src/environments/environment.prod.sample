@@ -1,5 +1,0 @@
-export const environment = {
-    production: true,
-    transcribeURL: '/transcription',
-    version: 'BUILD_VERSION',
-};
