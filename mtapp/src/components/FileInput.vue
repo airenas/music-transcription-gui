@@ -16,11 +16,14 @@
             >
               <div :hidden="fileLoaded">Įtempkite failą</div>
               <v-file-input
+                outlined
+                dense
                 show-size
                 truncate-length="50"
                 @change="fileChange"
                 :value="file"
                 label="Audio failas"
+                accept=".wav"
               ></v-file-input>
               <audio :src="audioURL" controls :hidden="!fileLoaded"></audio>
             </div>
@@ -78,12 +81,14 @@ export default {
   methods: {
     fileChange(file) {
       console.log("File", file);
-      this.file = file;
-      if (this.file) {
-        this.audioURL = window.URL.createObjectURL(this.file);
+      if (file && this.extensionOK(file)) {
+        this.file = file;
+        this.audioURL = window.URL.createObjectURL(file);
       } else {
+        this.file = null;
         this.audioURL = "";
       }
+
       console.log("URL", this.audioURL);
       this.updateControls();
     },
@@ -124,6 +129,10 @@ export default {
           this.working = false;
         });
     },
+    extensionOK(f) {
+      const wavExt = /(\.wav)$/i;
+      return wavExt.exec(f.name);
+    }
   },
 };
 </script>
