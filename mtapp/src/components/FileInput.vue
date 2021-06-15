@@ -1,60 +1,61 @@
 <template>
   <v-card>
-    <div>
-      <v-container fluid>
-        <v-row align="center">
-          <v-col class="text-center" cols="5">
-            <div
-              @drop.prevent="onDrop($event)"
-              @dragover.prevent="dragInProgress = true"
-              @dragenter.prevent="dragInProgress = true"
-              @dragleave.prevent="dragInProgress = false"
-              :class="{
-                'simple-border': !dragInProgress,
-                'drag-on': dragInProgress,
-              }"
+    <v-container fluid>
+      <v-row align="center">
+        <v-col class="text-center">
+          <div
+            @drop.prevent="onDrop($event)"
+            @dragover.prevent="dragInProgress = true"
+            @dragenter.prevent="dragInProgress = true"
+            @dragleave.prevent="dragInProgress = false"
+            :class="{
+              'simple-border-div': !dragInProgress,
+              'drag-on-div': dragInProgress,
+            }"
+          >
+            <div :hidden="fileLoaded" class="drop-info">Įtempkite failą</div>
+            <v-file-input
+              outlined
+              dense
+              hide-details
+              show-size
+              truncate-length="50"
+              @change="fileChange"
+              :value="file"
+              label="Audio failas"
+              accept=".wav"
+            ></v-file-input>
+            <audio
+              :src="audioURL"
+              controls
+              :hidden="!fileLoaded"
+              class="audio-control"
+            ></audio>
+          </div>
+          <div class="combo-div">
+            <v-combobox
+              v-model="selInstrument"
+              :items="instruments"
+              label="Instrumentas"
+              outlined
+              dense
+              hide-details
+              @change="updateControls"
+            ></v-combobox>
+          </div>
+          <div class="button-div">
+            <v-btn
+              dense
+              color="primary"
+              hide-details
+              :disabled="!canTranscribe || working"
+              v-on:click="transcribe"
+              >Transkribuoti</v-btn
             >
-              <div :hidden="fileLoaded">Įtempkite failą</div>
-              <v-file-input
-                outlined
-                dense
-                show-size
-                truncate-length="50"
-                @change="fileChange"
-                :value="file"
-                label="Audio failas"
-                accept=".wav"
-              ></v-file-input>
-              <audio :src="audioURL" controls :hidden="!fileLoaded"></audio>
-            </div>
-          </v-col>
-        </v-row>
-        <v-row align="center">
-          <v-col class="text-center" cols="12" sm="">
-            <div class="my-2">
-              <v-col cols="5">
-                <v-combobox
-                  v-model="selInstrument"
-                  :items="instruments"
-                  label="Instrumentas"
-                  outlined
-                  dense
-                  @change="updateControls"
-                ></v-combobox>
-              </v-col>
-            </div>
-            <div class="my-2">
-              <v-btn
-                color="primary"
-                :disabled="!canTranscribe || working"
-                v-on:click="transcribe"
-                >Transcribuoti</v-btn
-              >
-            </div>
-          </v-col>
-        </v-row>
-      </v-container>
-    </div>
+          </div>
+        </v-col>
+      </v-row>
+    </v-container>
   </v-card>
 </template>
 
@@ -109,11 +110,11 @@ export default {
     transcribe() {
       console.log("transcribe");
       this.working = true;
-      bus.$emit("onStart", { });
+      bus.$emit("onStart", {});
       service
         .transcribe(this.file, this.selInstrument)
         .then((r) => {
-          const d = r.data
+          const d = r.data;
           if ((d.error || "") !== "") {
             bus.$emit("onTranscribe", { error: d.error });
           } else {
@@ -132,21 +133,42 @@ export default {
     extensionOK(f) {
       const wavExt = /(\.wav)$/i;
       return wavExt.exec(f.name);
-    }
+    },
   },
 };
 </script>
 
 <style lang="sass">
 @import '~vuetify/src/styles/main.sass'
+.audio-control
+  width: 100%
+  padding-top: 10px
 
-.simple-border
-  border: solid 1px map-get($indigo, base)
-  margin: 5px
-  padding: 5px
+.button-div
+  width: 100%
+  padding-top: 10px
+  text-align: left
 
-.drag-on
+.combo-div
+  width: 100%
+  max-width: 500px
+  padding-top: 10px
+
+.drop-info
+  font-size: 110%
+  font-style: italic
+  padding-bottom: 10px
+
+.simple-border-div
+  margin: 2px
+  padding: 2px
+  width: 100%
+  max-width: 500px
+
+.drag-on-div
   border: solid 2px map-get($indigo, base)
-  margin: 5px
-  padding: 5px
+  margin: 2px
+  padding: 2px
+  width: 100%
+  max-width: 500px
 </style>

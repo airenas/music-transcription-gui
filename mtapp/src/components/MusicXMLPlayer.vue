@@ -1,13 +1,13 @@
 <template>
   <v-card>
-    <div class="simple">
+    <div class="scores-div">
       <div class="text-center">
         <v-progress-circular
           color="primary"
           :size="70"
           :width="7"
           indeterminate
-          :hidden="!working"
+          v-if="working"
         ></v-progress-circular>
       </div>
       <div class="text-center" :hidden="!file || working">
@@ -18,30 +18,39 @@
             </div>
           </div>
         </div>
-        <div>
-          <div class="text-center">
+        <div class="buttons-div">
+          <div class="action-div">
             <v-btn
               color="primary"
               elevation="2"
               v-on:click="play"
               :disabled="!canPlay"
+              icon
             >
-              {{ playOrPause }}</v-btn
-            >
+              <v-icon>{{ playOrPause }}</v-icon>
+            </v-btn>
+          </div>
+          <div class="action-div">
             <v-btn
-              color="primary"
               elevation="2"
               v-on:click="stop"
               :disabled="!canStop"
-              >Stop</v-btn
+              icon
+              color="red"
             >
+              <v-icon>mdi-stop</v-icon>
+            </v-btn>
+          </div>
+          <div class="save-div">
             <v-btn
               color="primary"
               elevation="2"
               v-on:click="save"
               :disabled="!file"
-              >Save</v-btn
+              icon
             >
+              <v-icon>mdi-cloud-download</v-icon>
+            </v-btn>
           </div>
         </div>
       </div>
@@ -180,7 +189,7 @@ export default {
       this.at.stop();
     },
     updateControls() {
-      this.playOrPause = !this.playing ? "Play" : "Pause";
+      this.playOrPause = !this.playing ? "mdi-play" : "mdi-pause";
       this.canPlay = this.at && this.at.isReadyForPlayback && !this.loading;
       this.canStop = this.playing;
     },
@@ -200,12 +209,26 @@ export default {
 };
 </script>
 
-<!-- Add "scoped" attribute to limit CSS to this component only -->
-<style lang="sass" scoped >
-@import '~vuetify/src/styles/main.sass'
-
-.simple
-  border: solid 1px map-get($indigo, base)
-  margin: 5px
-  padding: 5px
+<style scoped>
+.scores-div {
+  padding-top: 5px;
+  padding-bottom: 5px;
+}
+.buttons-div {
+  padding-top: 5px;
+  padding-bottom: 5px;
+  text-align: left;
+  align-items: left;
+  display: flex;
+}
+.action-div {
+  text-align: left;
+  padding-left: 10px;
+  width: 48px;
+}
+.save-div {
+  text-align: left;
+  padding-left: 40px;
+  width: 64px;
+}
 </style>
