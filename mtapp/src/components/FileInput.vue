@@ -41,7 +41,10 @@
               </v-col>
             </div>
             <div class="my-2">
-              <v-btn color="primary" :disabled="!canTranscribe"
+              <v-btn
+                color="primary"
+                :disabled="!canTranscribe || working"
+                v-on:click="transcribe"
                 >Transcribuoti</v-btn
               >
             </div>
@@ -54,6 +57,9 @@
 
 <script>
 import { bus } from "../main";
+import Transcriber from "../service/transcriber";
+
+const service = new Transcriber();
 
 export default {
   name: "FileInput",
@@ -63,9 +69,10 @@ export default {
       dragInProgress: false,
       selInstrument: "Klarnetas",
       instruments: ["Fleita", "Klarnetas", "Saxofonas", "Trimitas"],
-      audioURL: '',
+      audioURL: "",
       canTranscribe: false,
       fileLoaded: false,
+      working: false,
     };
   },
   methods: {
@@ -75,10 +82,9 @@ export default {
       if (this.file) {
         this.audioURL = window.URL.createObjectURL(this.file);
       } else {
-        this.audioURL = '';
+        this.audioURL = "";
       }
       console.log("URL", this.audioURL);
-      bus.$emit("fileChange", this.file);
       this.updateControls();
     },
     onDrop(e) {
@@ -94,6 +100,29 @@ export default {
       console.log("Update", this.selInstrument);
       this.canTranscribe = this.file && this.selInstrument;
       this.fileLoaded = this.file && this.file !== undefined;
+    },
+    transcribe() {
+      console.log("transcribe");
+      this.working = true;
+      bus.$emit("onStart", { });
+      service
+        .transcribe(this.file, this.selInstrument)
+        .then((r) => {
+          const d = r.data
+          if ((d.error || "") !== "") {
+            bus.$emit("onTranscribe", { error: d.error });
+          } else {
+            const data = atob(d.musicXML);
+            bus.$emit("onTranscribe", { data: data });
+          }
+        })
+        .catch((e) => {
+          bus.$emit("onTranscribe", { error: e });
+        })
+        .then(() => {
+          console.log("finish");
+          this.working = false;
+        });
     },
   },
 };
