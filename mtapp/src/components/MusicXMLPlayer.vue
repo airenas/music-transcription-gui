@@ -61,17 +61,18 @@
 </template>
 
 <script>
-import { bus } from "../main";
-import { saveAs } from "file-saver";
+import { saveAs } from 'file-saver';
+import { bus } from '../main';
 
-import ErrorService from "../service/error";
+import ErrorService from '../service/error';
+
 const es = new ErrorService();
 
 export default {
-  name: "MusicXMLPlayer",
+  name: 'MusicXMLPlayer',
   data() {
     return {
-      playOrPause: "Play",
+      playOrPause: 'Play',
       canPlay: false,
       canStop: false,
       playing: false,
@@ -80,26 +81,26 @@ export default {
       file: null,
       at: null,
       publicPath: process.env.BASE_URL,
-      error: "",
+      error: '',
     };
   },
   created() {
-    bus.$on("onTranscribe", (d) => {
-      console.log("On transcribe");
+    bus.$on('onTranscribe', (d) => {
+      console.log('On transcribe');
       this.working = false;
-      if ((d.error || "") !== "") {
+      if ((d.error || '') !== '') {
         this.error = es.msg(d.error);
         this.file = null;
       } else {
-        console.log("Data", d.data);
-        this.file = new File([d.data], "music.xml");
+        console.log('Data', d.data);
+        this.file = new File([d.data], 'music.xml');
         this.setMusicXML(this.file);
       }
     });
-    bus.$on("onStart", (d) => {
-      console.log("On start");
+    bus.$on('onStart', (d) => {
+      console.log('On start');
       this.working = true;
-      this.error = "";
+      this.error = '';
     });
   },
   mounted() {
@@ -108,11 +109,11 @@ export default {
   methods: {
     setupControl() {
       const { updateControls } = this;
-      const fontName = "Roboto";
-      const atDiv = document.getElementById("at-main");
+      const fontName = 'Roboto';
+      const atDiv = document.getElementById('at-main');
       console.log(atDiv);
-      const viewPort = document.getElementById("at-viewport");
-      console.log("viewPort", viewPort);
+      const viewPort = document.getElementById('at-viewport');
+      console.log('viewPort', viewPort);
       const at = new alphaTab.AlphaTabApi(atDiv, {
         player: {
           scrollOffsetx: -10,
@@ -132,7 +133,7 @@ export default {
         },
       });
       at.error.on((e) => {
-        console.error("alphaTab error", e);
+        console.error('alphaTab error', e);
       });
 
       const trackItems = [];
@@ -140,7 +141,7 @@ export default {
         this.loading = true;
         updateControls();
         if (!isResize) {
-          console.log("started loading");
+          console.log('started loading');
         }
         const tracks = new Map();
         at.tracks.forEach((t) => {
@@ -149,38 +150,38 @@ export default {
 
         trackItems.forEach((trackItem) => {
           if (tracks.has(trackItem.track.index)) {
-            trackItem.classList.add("active");
+            trackItem.classList.add('active');
           } else {
-            trackItem.classList.remove("active");
+            trackItem.classList.remove('active');
           }
         });
       });
 
       at.renderFinished.on(() => {
-        console.log("render finish");
+        console.log('render finish');
         this.loading = false;
         updateControls();
       });
       at.scoreLoaded.on((score) => {
-        console.log("score loaded");
+        console.log('score loaded');
         updateControls();
       });
 
       at.playerPositionChanged.on((args) => {});
 
-      const playPauseButton = document.getElementById("play");
+      const playPauseButton = document.getElementById('play');
       at.playerReady.on(() => {
-        console.log("player ready");
+        console.log('player ready');
         updateControls();
       });
 
       at.playerStateChanged.on((e) => {
-        console.log("stopped", e.stopped, e.state);
+        console.log('stopped', e.stopped, e.state);
         this.playing = e.state == 1;
         if (!this.playing) {
-          console.log("Stopped");
+          console.log('Stopped');
         } else {
-          console.log("Playing");
+          console.log('Playing');
         }
         updateControls();
       });
@@ -196,14 +197,14 @@ export default {
       this.at.stop();
     },
     updateControls() {
-      this.playOrPause = !this.playing ? "mdi-play" : "mdi-pause";
+      this.playOrPause = !this.playing ? 'mdi-play' : 'mdi-pause';
       this.canPlay = this.at && this.at.isReadyForPlayback && !this.loading;
       this.canStop = this.playing;
     },
     setMusicXML(file) {
       if (file) {
         const reader = new FileReader();
-        const at = this.at;
+        const { at } = this;
         reader.onload = function (data) {
           at.load(data.target.result, [0]);
         };

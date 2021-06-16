@@ -9,11 +9,11 @@
 </template>
 
 <script>
-import FileInput from "./components/FileInput.vue";
-import MusicXMLPlayer from "./components/MusicXMLPlayer.vue";
+import FileInput from './components/FileInput.vue';
+import MusicXMLPlayer from './components/MusicXMLPlayer.vue';
 
 export default {
-  name: "App",
+  name: 'App',
 
   components: {
     FileInput,

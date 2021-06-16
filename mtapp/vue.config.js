@@ -12,17 +12,17 @@ module.exports = {
       '^/mts/transcription': {
         target: 'http://localhost:8002/',
         secure: false,
-        pathRewrite: { "^/mts": "" },
-        logLevel: "debug"
+        pathRewrite: { '^/mts': '' },
+        logLevel: 'debug',
       },
-    }
+    },
   },
-  chainWebpack: config => {
+  chainWebpack: (config) => {
     config
       .plugin('html')
-      .tap(args => {
-        args[0].title = "Muzikos transkripcijos paslauga";
+      .tap((args) => {
+        args[0].title = 'Muzikos transkripcijos paslauga';
         return args;
-      })
-  }
+      });
+  },
 };

@@ -64,25 +64,25 @@
 </template>
 
 <script>
-import { bus } from "../main";
-import Transcriber from "../service/transcriber";
+import { bus } from '../main';
+import Transcriber from '../service/transcriber';
 
 const service = new Transcriber();
 
 export default {
-  name: "FileInput",
+  name: 'FileInput',
   data() {
     return {
       file: null,
       dragInProgress: false,
-      selInstrument: "clarinet",
+      selInstrument: 'clarinet',
       instruments: [
-        { id: "flute", value: "Fleita" },
-        { id: "clarinet", value: "Klarnetas" },
-        { id: "saxophone", value: "Saxofonas" },
-        { id: "trumpet", value: "Trimitas" },
+        { id: 'flute', value: 'Fleita' },
+        { id: 'clarinet', value: 'Klarnetas' },
+        { id: 'saxophone', value: 'Saxofonas' },
+        { id: 'trumpet', value: 'Trimitas' },
       ],
-      audioURL: "",
+      audioURL: '',
       canTranscribe: false,
       fileLoaded: false,
       working: false,
@@ -90,21 +90,21 @@ export default {
   },
   methods: {
     fileChange(file) {
-      console.log("File", file);
+      console.log('File', file);
       if (file && this.extensionOK(file)) {
         this.file = file;
         this.audioURL = window.URL.createObjectURL(file);
       } else {
         this.file = null;
-        this.audioURL = "";
+        this.audioURL = '';
       }
 
-      console.log("URL", this.audioURL);
+      console.log('URL', this.audioURL);
       this.updateControls();
     },
     onDrop(e) {
       this.dragInProgress = false;
-      console.log("File", e);
+      console.log('File', e);
       if (e.dataTransfer.files.length > 0) {
         this.fileChange(e.dataTransfer.files[0]);
       } else {
@@ -112,31 +112,31 @@ export default {
       }
     },
     updateControls() {
-      console.log("Update", this.selInstrument);
+      console.log('Update', this.selInstrument);
       this.canTranscribe = this.file && this.selInstrument;
       this.fileLoaded = this.file && this.file !== undefined;
     },
     transcribe() {
-      console.log("transcribe");
+      console.log('transcribe');
       this.working = true;
-      bus.$emit("onStart", {});
+      bus.$emit('onStart', {});
       service
         .transcribe(this.file, this.selInstrument)
         .then((r) => {
           const d = r.data;
-          if ((d.error || "") !== "") {
-            bus.$emit("onTranscribe", { error: d.error });
+          if ((d.error || '') !== '') {
+            bus.$emit('onTranscribe', { error: d.error });
           } else {
             const data = atob(d.musicXML);
-            bus.$emit("onTranscribe", { data: data });
+            bus.$emit('onTranscribe', { data });
           }
         })
         .catch((e) => {
-          console.log("error", e);
-          bus.$emit("onTranscribe", { error: e });
+          console.log('error', e);
+          bus.$emit('onTranscribe', { error: e });
         })
         .then(() => {
-          console.log("finish");
+          console.log('finish');
           this.working = false;
         });
     },
