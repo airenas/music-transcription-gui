@@ -1,14 +1,16 @@
 <template>
   <v-card>
     <div class="scores-div">
-      <div class="text-center">
+      <div class="text-center" v-if="working">
         <v-progress-circular
           color="primary"
           :size="70"
           :width="7"
           indeterminate
-          v-if="working"
         ></v-progress-circular>
+      </div>
+      <div class="text-center" v-if="!working && error">
+        <span class="error-span">{{ error }}</span>
       </div>
       <div class="text-center" :hidden="!file || working">
         <div class="buttons-div">
@@ -75,6 +77,7 @@ export default {
       file: null,
       at: null,
       publicPath: process.env.BASE_URL,
+      error: "",
     };
   },
   created() {
@@ -93,6 +96,7 @@ export default {
     bus.$on("onStart", (d) => {
       console.log("On start");
       this.working = true;
+      this.error = "";
     });
   },
   mounted() {
@@ -235,5 +239,10 @@ export default {
   text-align: left;
   margin-left: 40px;
   width: 64px;
+}
+.error-span{
+  color: red;
+  font-style: italic;
+  font-size: 90%;
 }
 </style>

@@ -132,6 +132,7 @@ export default {
           }
         })
         .catch((e) => {
+          console.log("error", e);
           bus.$emit("onTranscribe", { error: e });
         })
         .then(() => {
