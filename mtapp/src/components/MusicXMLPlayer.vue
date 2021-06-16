@@ -64,6 +64,9 @@
 import { bus } from "../main";
 import { saveAs } from "file-saver";
 
+import ErrorService from "../service/error";
+const es = new ErrorService();
+
 export default {
   name: "MusicXMLPlayer",
   data() {
@@ -85,7 +88,7 @@ export default {
       console.log("On transcribe");
       this.working = false;
       if ((d.error || "") !== "") {
-        this.error = d.error;
+        this.error = es.msg(d.error);
         this.file = null;
       } else {
         console.log("Data", d.data);

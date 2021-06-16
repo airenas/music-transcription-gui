@@ -1,22 +1,23 @@
 <template>
   <v-app>
     <v-main>
-      <FileInput/>
+      <FileInput />
       <v-spacer></v-spacer>
-      <MusicXMLPlayer/>
+      <MusicXMLPlayer />
     </v-main>
   </v-app>
 </template>
 
 <script>
-import FileInput from './components/FileInput.vue';
-import MusicXMLPlayer from './components/MusicXMLPlayer.vue';
+import FileInput from "./components/FileInput.vue";
+import MusicXMLPlayer from "./components/MusicXMLPlayer.vue";
 
 export default {
-  name: 'App',
+  name: "App",
 
   components: {
-    FileInput, MusicXMLPlayer
+    FileInput,
+    MusicXMLPlayer,
   },
 
   data: () => ({
