@@ -11,15 +11,8 @@
         ></v-progress-circular>
       </div>
       <div class="text-center" :hidden="!file || working">
-        <div class="at-wrap">
-          <div class="at-content">
-            <div class="at-viewport" id="at-viewport">
-              <div id="at-main" class="at-canvas"></div>
-            </div>
-          </div>
-        </div>
         <div class="buttons-div">
-          <div class="action-div">
+          <div class="action-start-div">
             <v-btn
               color="primary"
               elevation="2"
@@ -51,6 +44,13 @@
             >
               <v-icon>mdi-cloud-download</v-icon>
             </v-btn>
+          </div>
+        </div>
+        <div class="at-wrap">
+          <div class="at-content">
+            <div class="at-viewport" id="at-viewport">
+              <div id="at-main" class="at-canvas"></div>
+            </div>
           </div>
         </div>
       </div>
@@ -221,14 +221,19 @@ export default {
   align-items: left;
   display: flex;
 }
+.action-start-div {
+  text-align: left;
+  margin-left: 40px;
+  width: 48px;
+}
 .action-div {
   text-align: left;
-  padding-left: 10px;
+  margin-left: 10px;
   width: 48px;
 }
 .save-div {
   text-align: left;
-  padding-left: 40px;
+  margin-left: 40px;
   width: 64px;
 }
 </style>
