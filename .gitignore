@@ -106,3 +106,4 @@ mtapp/package-lock.json
 Makefile.options
 mtapp/public/at/**
 mtapp/.build.done
+.vscode/**

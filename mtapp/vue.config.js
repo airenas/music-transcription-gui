@@ -25,4 +25,7 @@ module.exports = {
         return args;
       });
   },
+  configureWebpack: {
+    devtool: 'inline-source-map',
+  }
 };

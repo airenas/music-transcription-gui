@@ -6,6 +6,7 @@
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
     "test": "vue-cli-service test:unit --watch",
+    "test:debug": "vue-cli-service test:unit --inspect-brk",
     "lint": "vue-cli-service lint"
   },
   "dependencies": {
