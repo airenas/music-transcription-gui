@@ -21,7 +21,7 @@ module.exports = {
     config
       .plugin('html')
       .tap((args) => {
-        args[0].title = 'Muzikos transkripcijos paslauga';
+        args[0].title = 'Muzikos transkripcijos paslauga'; // eslint-disable-line no-param-reassign
         return args;
       });
   },

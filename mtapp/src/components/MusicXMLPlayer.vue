@@ -92,13 +92,11 @@ export default {
         this.error = es.msg(d.error);
         this.file = null;
       } else {
-        console.log('Data', d.data);
         this.file = new File([d.data], 'music.xml');
         this.setMusicXML(this.file);
       }
     });
-    bus.$on('onStart', (d) => {
-      console.log('On start');
+    bus.$on('onStart', () => {
       this.working = true;
       this.error = '';
     });
@@ -111,10 +109,8 @@ export default {
       const { updateControls } = this;
       const fontName = 'Roboto';
       const atDiv = document.getElementById('at-main');
-      console.log(atDiv);
       const viewPort = document.getElementById('at-viewport');
-      console.log('viewPort', viewPort);
-      const at = new alphaTab.AlphaTabApi(atDiv, {
+      const at = new alphaTab.AlphaTabApi(atDiv, { // eslint-disable-line no-undef
         player: {
           scrollOffsetx: -10,
           enablePlayer: true,
@@ -158,26 +154,22 @@ export default {
       });
 
       at.renderFinished.on(() => {
-        console.log('render finish');
         this.loading = false;
         updateControls();
       });
-      at.scoreLoaded.on((score) => {
-        console.log('score loaded');
+      at.scoreLoaded.on(() => {
         updateControls();
       });
 
-      at.playerPositionChanged.on((args) => {});
+      // at.playerPositionChanged.on(() => {});
 
-      const playPauseButton = document.getElementById('play');
       at.playerReady.on(() => {
-        console.log('player ready');
         updateControls();
       });
 
       at.playerStateChanged.on((e) => {
         console.log('stopped', e.stopped, e.state);
-        this.playing = e.state == 1;
+        this.playing = e.state === 1;
         if (!this.playing) {
           console.log('Stopped');
         } else {
@@ -204,9 +196,8 @@ export default {
     setMusicXML(file) {
       if (file) {
         const reader = new FileReader();
-        const { at } = this;
-        reader.onload = function (data) {
-          at.load(data.target.result, [0]);
+        reader.onload = (data) => {
+          this.at.load(data.target.result, [0]);
         };
         reader.readAsArrayBuffer(file);
       } else {
@@ -244,7 +235,7 @@ export default {
   margin-left: 40px;
   width: 64px;
 }
-.error-span{
+.error-span {
   color: red;
   font-style: italic;
   font-size: 90%;
