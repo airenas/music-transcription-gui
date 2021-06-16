@@ -112,7 +112,7 @@ export default {
       }
     },
     updateControls() {
-      this.canTranscribe = this.file && this.selInstrument;
+      this.canTranscribe = this.file && (this.selInstrument || '') !== '';
       this.fileLoaded = this.file && this.file !== undefined;
     },
     transcribe() {
@@ -138,7 +138,8 @@ export default {
     },
     extensionOK(f) {
       const wavExt = /(\.wav)$/i;
-      return wavExt.exec(f.name);
+      const res = wavExt.exec(f.name);
+      return res !== null && res.length !== 0;
     },
   },
 };
