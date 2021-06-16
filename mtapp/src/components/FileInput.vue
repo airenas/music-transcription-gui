@@ -33,15 +33,17 @@
             ></audio>
           </div>
           <div class="combo-div">
-            <v-combobox
+            <v-autocomplete
               v-model="selInstrument"
               :items="instruments"
               label="Instrumentas"
               outlined
               dense
               hide-details
+              item-text='value'
+              item-value='id'
               @change="updateControls"
-            ></v-combobox>
+            ></v-autocomplete>
           </div>
           <div class="button-div">
             <v-btn
@@ -71,8 +73,13 @@ export default {
     return {
       file: null,
       dragInProgress: false,
-      selInstrument: "Klarnetas",
-      instruments: ["Fleita", "Klarnetas", "Saxofonas", "Trimitas"],
+      selInstrument: "clarinet",
+      instruments: [
+        { id: "flute", value: "Fleita" },
+        { id: "clarinet", value: "Klarnetas" },
+        { id: "saxophone", value: "Saxofonas" },
+        { id: "trumpet", value: "Trimitas" },
+      ],
       audioURL: "",
       canTranscribe: false,
       fileLoaded: false,
