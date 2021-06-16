@@ -1,6 +1,6 @@
 <template>
   <v-card>
-    <v-container fluid>
+    <v-container fluid align="center">
       <v-row align="center">
         <v-col class="text-center">
           <div
@@ -32,28 +32,30 @@
               class="audio-control"
             ></audio>
           </div>
-          <div class="combo-div">
-            <v-autocomplete
-              v-model="selInstrument"
-              :items="instruments"
-              label="Instrumentas"
-              outlined
-              dense
-              hide-details
-              item-text='value'
-              item-value='id'
-              @change="updateControls"
-            ></v-autocomplete>
-          </div>
-          <div class="button-div">
-            <v-btn
-              dense
-              color="primary"
-              hide-details
-              :disabled="!canTranscribe || working"
-              v-on:click="transcribe"
-              >Transkribuoti</v-btn
-            >
+          <div class="combo-button-div">
+            <div class="combo-div">
+              <v-autocomplete
+                v-model="selInstrument"
+                :items="instruments"
+                label="Instrumentas"
+                outlined
+                dense
+                hide-details
+                item-text="value"
+                item-value="id"
+                @change="updateControls"
+              ></v-autocomplete>
+            </div>
+            <div class="button-div">
+              <v-btn
+                dense
+                color="primary"
+                hide-details
+                :disabled="!canTranscribe || working"
+                v-on:click="transcribe" x-large
+                >Transkribuoti</v-btn
+              >
+            </div>
           </div>
         </v-col>
       </v-row>
@@ -152,14 +154,17 @@ export default {
   padding-top: 10px
 
 .button-div
-  width: 100%
+  // width: 100%
   padding-top: 10px
+  margin-left: auto
   text-align: left
+  margin-right: 0px
 
 .combo-div
   width: 100%
-  max-width: 500px
+  // max-width: 250px
   padding-top: 10px
+  padding-right: 10px
 
 .drop-info
   font-size: 110%
@@ -178,4 +183,12 @@ export default {
   padding: 2px
   width: 100%
   max-width: 500px
+
+.combo-button-div
+  text-align: right
+  align-items: center
+  display: flex
+  width: 100%
+  max-width: 500px
+
 </style>
