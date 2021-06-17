@@ -15,7 +15,7 @@ $(dist_dir)/.build: $(main_dir)
 
 build: $(dist_dir)/.build
 ########### DOCKER ##################################################################
-tag=$(docker_prefix)$(service):$(version).$(commit_count)
+tag=$(USER)/$(service):$(version).$(commit_count)
 
 dbuild: build
 	docker build -t $(tag) ./
