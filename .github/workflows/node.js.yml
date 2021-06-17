@@ -24,16 +24,13 @@ jobs:
     steps:
     - uses: actions/checkout@v2
 
-    - name: Prepare env file
-      run: cd .. && make updateVersion
-
     - name: Use Node.js ${{ matrix.node-version }}
       uses: actions/setup-node@v1
       with:
         node-version: ${{ matrix.node-version }}
     - run: npm ci
-    - run: npm run build:prod --if-present
-    - run: npm run test:prod
+    - run: npm run build
+    - run: npm run test:coverage
     
     - name: Fix lcov paths
       run: cat ./coverage/mtapp/lcov.info | sed 's/SF:src/SF:mtapp\/src/g' > ./coverage/lcov.info
