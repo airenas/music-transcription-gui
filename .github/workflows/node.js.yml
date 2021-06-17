@@ -33,7 +33,7 @@ jobs:
     - run: npm run test:coverage
     
     - name: Fix lcov paths
-      run: cat ./coverage/mtapp/lcov.info | sed 's/SF:src/SF:mtapp\/src/g' > ./coverage/lcov.info
+      run: cat ./coverage/lcov.info | sed 's/SF:src/SF:mtapp\/src/g' > ./coverage/lcov.f.info
     
     - run: npm run lint 
 
@@ -41,4 +41,4 @@ jobs:
       uses: coverallsapp/github-action@master
       with:
         github-token: ${{ secrets.GITHUB_TOKEN }}
-        path-to-lcov: ./mtapp/coverage/lcov.info
+        path-to-lcov: ./mtapp/coverage/lcov.f.info
