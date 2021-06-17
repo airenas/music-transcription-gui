@@ -1,33 +1,32 @@
 import FileInput from '@/components/FileInput.vue';
-import { createLocalVue, mount, shallowMount } from '@vue/test-utils';
-import Vuetify from 'vuetify';
+import { mount } from '@vue/test-utils';
 import Vue from 'vue';
+import Vuetify from 'vuetify';
 
-Vue.use(Vuetify)
+Vue.use(Vuetify);
 
 const disabledStr = 'disabled="disabled"';
 
 global.requestAnimationFrame = (cb) => { cb(); };
 
-var expect = require('chai').expect;
+const { expect } = require('chai');
 
 describe('FileInput.vue', () => {
   let wrapper;
   beforeEach(() => {
-    const vuetify = new Vuetify({})
+    const vuetify = new Vuetify({});
     wrapper = mount(FileInput,
       {
-        vuetify
-      }
-    );
+        vuetify,
+      });
     wrapper.vm.updateControls();
-  })
+  });
 
   it('shows controls on create', async () => {
-    expect(wrapper.find("#fileInput").isVisible()).is.true;
-    expect(wrapper.find("#audio").isVisible()).is.false;
-    expect(wrapper.find("#dropInfo").isVisible()).is.true;
-    expect(wrapper.find("#transcribeButton").html()).includes(disabledStr);
+    expect(wrapper.find('#fileInput').isVisible()).is.true;
+    expect(wrapper.find('#audio').isVisible()).is.false;
+    expect(wrapper.find('#dropInfo').isVisible()).is.true;
+    expect(wrapper.find('#transcribeButton').html()).includes(disabledStr);
   });
 
   it('cheeck when no file', async () => {
@@ -36,11 +35,11 @@ describe('FileInput.vue', () => {
     expect(wrapper.vm.working).is.false;
     expect(wrapper.vm.fileLoaded).is.false;
     expect(wrapper.vm.canTranscribe).is.false;
-    await wrapper.vm.$nextTick()
-    expect(wrapper.find("#dropInfo").isVisible()).is.true;
-    expect(wrapper.find("#fileInput").isVisible()).is.true;
-    expect(wrapper.find("#audio").isVisible()).not.is.true;
-    expect(wrapper.find("#transcribeButton").html()).includes(disabledStr);
+    await wrapper.vm.$nextTick();
+    expect(wrapper.find('#dropInfo').isVisible()).is.true;
+    expect(wrapper.find('#fileInput').isVisible()).is.true;
+    expect(wrapper.find('#audio').isVisible()).not.is.true;
+    expect(wrapper.find('#transcribeButton').html()).includes(disabledStr);
   });
 
   it('check when file is set', async () => {
@@ -50,16 +49,16 @@ describe('FileInput.vue', () => {
     expect(wrapper.vm.working).is.false;
     expect(wrapper.vm.fileLoaded).is.true;
     expect(wrapper.vm.canTranscribe).is.true;
-    await wrapper.vm.$nextTick()
-    expect(wrapper.find("#dropInfo").isVisible()).not.is.true;
-    expect(wrapper.find("#fileInput").isVisible()).is.true;
-    expect(wrapper.find("#audio").isVisible()).is.true;
-    expect(wrapper.find("#transcribeButton").html()).not.includes(disabledStr);
+    await wrapper.vm.$nextTick();
+    expect(wrapper.find('#dropInfo').isVisible()).not.is.true;
+    expect(wrapper.find('#fileInput').isVisible()).is.true;
+    expect(wrapper.find('#audio').isVisible()).is.true;
+    expect(wrapper.find('#transcribeButton').html()).not.includes(disabledStr);
   });
 
   it('extension OK', () => {
-    expect(wrapper.vm.extensionOK(new File(["olia"], 'music.wav'))).is.true;
-    expect(wrapper.vm.extensionOK(new File(["olia"], 'olia/music.wav'))).is.true;
-    expect(wrapper.vm.extensionOK(new File(["olia"], 'olia/music.mp3'))).is.false;
+    expect(wrapper.vm.extensionOK(new File(['olia'], 'music.wav'))).is.true;
+    expect(wrapper.vm.extensionOK(new File(['olia'], 'olia/music.wav'))).is.true;
+    expect(wrapper.vm.extensionOK(new File(['olia'], 'olia/music.mp3'))).is.false;
   });
 });

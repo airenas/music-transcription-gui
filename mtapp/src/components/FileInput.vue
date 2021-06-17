@@ -70,25 +70,25 @@
 </template>
 
 <script>
-import { bus } from "../service/bus";
-import Transcriber from "../service/transcriber";
+import { bus } from '../service/bus';
+import Transcriber from '../service/transcriber';
 
 const service = new Transcriber();
 
 export default {
-  name: "FileInput",
+  name: 'FileInput',
   data() {
     return {
       file: null,
       dragInProgress: false,
-      selInstrument: "clarinet",
+      selInstrument: 'clarinet',
       instruments: [
-        { id: "flute", value: "Fleita" },
-        { id: "clarinet", value: "Klarnetas" },
-        { id: "saxophone", value: "Saxofonas" },
-        { id: "trumpet", value: "Trimitas" },
+        { id: 'flute', value: 'Fleita' },
+        { id: 'clarinet', value: 'Klarnetas' },
+        { id: 'saxophone', value: 'Saxofonas' },
+        { id: 'trumpet', value: 'Trimitas' },
       ],
-      audioURL: "",
+      audioURL: '',
       canTranscribe: false,
       fileLoaded: false,
       working: false,
@@ -104,7 +104,7 @@ export default {
         this.audioURL = window.URL.createObjectURL(file);
       } else {
         this.file = null;
-        this.audioURL = "";
+        this.audioURL = '';
       }
       this.updateControls();
     },
@@ -117,26 +117,25 @@ export default {
       }
     },
     updateControls() {
-      this.canTranscribe =
-        this.file !== null && (this.selInstrument || "") !== "";
+      this.canTranscribe = this.file !== null && (this.selInstrument || '') !== '';
       this.fileLoaded = this.file !== null && this.file !== undefined;
     },
     transcribe() {
       this.working = true;
-      bus.$emit("onStart", {});
+      bus.$emit('onStart', {});
       service
         .transcribe(this.file, this.selInstrument)
         .then((r) => {
           const d = r.data;
-          if ((d.error || "") !== "") {
-            bus.$emit("onTranscribe", { error: d.error });
+          if ((d.error || '') !== '') {
+            bus.$emit('onTranscribe', { error: d.error });
           } else {
             const data = atob(d.musicXML);
-            bus.$emit("onTranscribe", { data });
+            bus.$emit('onTranscribe', { data });
           }
         })
         .catch((e) => {
-          bus.$emit("onTranscribe", { error: e });
+          bus.$emit('onTranscribe', { error: e });
         })
         .then(() => {
           this.working = false;

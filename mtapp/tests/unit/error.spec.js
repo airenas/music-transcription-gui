@@ -2,7 +2,7 @@ import ErrorService from '@/service/error';
 
 const es = new ErrorService();
 
-var expect = require('chai').expect;
+const { expect } = require('chai');
 
 describe('ErrorService tests', () => {
   it('test msgs', () => {
