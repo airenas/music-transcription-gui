@@ -1,8 +1,8 @@
 #############################################################################
--include Makefile.options
+-include ../Makefile.options
 deploy_dir?=dist
 #############################################################################
-.build.done: public/at/LICENSE.alphaTab public/at/alphaTab.min.js public/at/font \
+.init.done: public/at/LICENSE.alphaTab public/at/alphaTab.min.js public/at/font \
 	public/at/soundfont
 	touch $@
 
@@ -13,23 +13,21 @@ public/at/LICENSE.alphaTab: node_modules/@coderline/alphatab/LICENSE
 public/at/%: node_modules/@coderline/alphatab/dist/% 
 	cp -r $< $@
 
-compile: .build.done 
+build: .init.done 
 	npm run build
+test: .init.done 
+	npm run test:unit
 #############################################################################
 serve: .build.done 
 	npm run serve
-
-prepare:
-	npm install
-
+init:
+	npm ci
+	$(MAKE) .init.done
 #############################################################################
 clean-deploy: 
 	rm -rf $(deploy_dir)/at $(deploy_dir)/css $(deploy_dir)/js
 	rm -f $(deploy_dir)/index.html $(deploy_dir)/favicon.icoma
-
-
-copy-deploy: clean-deploy
-	cp -r dist/* $(deploy_dir)/
+	rm -f .init.done
 #############################################################################
 clean: 
 	rm -rf dist
