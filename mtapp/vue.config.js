@@ -3,6 +3,7 @@ module.exports = {
     'vuetify',
   ],
   lintOnSave: false,
+  publicPath: '/music',
   devServer: {
     overlay: {
       warnings: true,
