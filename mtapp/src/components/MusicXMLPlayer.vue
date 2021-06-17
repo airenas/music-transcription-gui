@@ -99,6 +99,9 @@ export default {
     bus.$on('onStart', () => {
       this.working = true;
       this.error = '';
+      if (this.playing) {
+        this.stop();
+      }
     });
   },
   mounted() {
