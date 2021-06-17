@@ -65,7 +65,7 @@
 </template>
 
 <script>
-import { bus } from "../main";
+import { bus } from "../service/bus";
 import Transcriber from "../service/transcriber";
 
 const service = new Transcriber();

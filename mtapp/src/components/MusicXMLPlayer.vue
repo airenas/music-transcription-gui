@@ -62,7 +62,7 @@
 
 <script>
 import { saveAs } from 'file-saver';
-import { bus } from '../main';
+import { bus } from '../service/bus';
 
 import ErrorService from '../service/error';
 
