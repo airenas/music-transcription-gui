@@ -102,7 +102,7 @@ export default {
     });
   },
   mounted() {
-    this.at = this.setupControl();
+    //this.at = this.setupControl();
   },
   methods: {
     setupControl() {
@@ -133,12 +133,9 @@ export default {
       });
 
       const trackItems = [];
-      at.renderStarted.on((isResize) => {
+      at.renderStarted.on(() => {
         this.loading = true;
         updateControls();
-        if (!isResize) {
-          console.log('started loading');
-        }
         const tracks = new Map();
         at.tracks.forEach((t) => {
           tracks.set(t.index, t);
@@ -168,13 +165,7 @@ export default {
       });
 
       at.playerStateChanged.on((e) => {
-        console.log('stopped', e.stopped, e.state);
         this.playing = e.state === 1;
-        if (!this.playing) {
-          console.log('Stopped');
-        } else {
-          console.log('Playing');
-        }
         updateControls();
       });
       return at;
@@ -193,7 +184,11 @@ export default {
       this.canPlay = this.at && this.at.isReadyForPlayback && !this.loading;
       this.canStop = this.playing;
     },
+
     setMusicXML(file) {
+      if (!this.at) {
+        this.at = this.setupControl();
+      }
       if (file) {
         const reader = new FileReader();
         reader.onload = (data) => {
