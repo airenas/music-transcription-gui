@@ -9,7 +9,11 @@ const disabledStr = 'disabled="disabled"';
 
 global.requestAnimationFrame = (cb) => { cb(); };
 
-const { expect } = require('chai');
+const chai = require('chai');
+const parentheses = require('chai-parentheses');
+
+const { expect } = chai;
+chai.use(parentheses);
 
 describe('FileInput.vue', () => {
   let wrapper;
@@ -23,42 +27,42 @@ describe('FileInput.vue', () => {
   });
 
   it('shows controls on create', async () => {
-    expect(wrapper.find('#fileInput').isVisible()).is.true;
-    expect(wrapper.find('#audio').isVisible()).is.false;
-    expect(wrapper.find('#dropInfo').isVisible()).is.true;
+    expect(wrapper.find('#fileInput').isVisible()).is.true();
+    expect(wrapper.find('#audio').isVisible()).is.false();
+    expect(wrapper.find('#dropInfo').isVisible()).is.true();
     expect(wrapper.find('#transcribeButton').html()).includes(disabledStr);
   });
 
   it('cheeck when no file', async () => {
     wrapper.setData({ file: null });
     wrapper.vm.updateControls();
-    expect(wrapper.vm.working).is.false;
-    expect(wrapper.vm.fileLoaded).is.false;
-    expect(wrapper.vm.canTranscribe).is.false;
+    expect(wrapper.vm.working).is.false();
+    expect(wrapper.vm.fileLoaded).is.false();
+    expect(wrapper.vm.canTranscribe).is.false();
     await wrapper.vm.$nextTick();
-    expect(wrapper.find('#dropInfo').isVisible()).is.true;
-    expect(wrapper.find('#fileInput').isVisible()).is.true;
-    expect(wrapper.find('#audio').isVisible()).not.is.true;
+    expect(wrapper.find('#dropInfo').isVisible()).is.true();
+    expect(wrapper.find('#fileInput').isVisible()).is.true();
+    expect(wrapper.find('#audio').isVisible()).not.is.true();
     expect(wrapper.find('#transcribeButton').html()).includes(disabledStr);
   });
 
   it('check when file is set', async () => {
     wrapper.setData({ file: new File(['fake'], 'audio.wav') });
     wrapper.vm.updateControls();
-    expect(wrapper.vm.file).not.is.null;
-    expect(wrapper.vm.working).is.false;
-    expect(wrapper.vm.fileLoaded).is.true;
-    expect(wrapper.vm.canTranscribe).is.true;
+    expect(wrapper.vm.file).not.is.null();
+    expect(wrapper.vm.working).is.false();
+    expect(wrapper.vm.fileLoaded).is.true();
+    expect(wrapper.vm.canTranscribe).is.true();
     await wrapper.vm.$nextTick();
-    expect(wrapper.find('#dropInfo').isVisible()).not.is.true;
-    expect(wrapper.find('#fileInput').isVisible()).is.true;
-    expect(wrapper.find('#audio').isVisible()).is.true;
+    expect(wrapper.find('#dropInfo').isVisible()).not.is.true();
+    expect(wrapper.find('#fileInput').isVisible()).is.true();
+    expect(wrapper.find('#audio').isVisible()).is.true();
     expect(wrapper.find('#transcribeButton').html()).not.includes(disabledStr);
   });
 
   it('extension OK', () => {
-    expect(wrapper.vm.extensionOK(new File(['olia'], 'music.wav'))).is.true;
-    expect(wrapper.vm.extensionOK(new File(['olia'], 'olia/music.wav'))).is.true;
-    expect(wrapper.vm.extensionOK(new File(['olia'], 'olia/music.mp3'))).is.false;
+    expect(wrapper.vm.extensionOK(new File(['olia'], 'music.wav'))).is.true();
+    expect(wrapper.vm.extensionOK(new File(['olia'], 'olia/music.wav'))).is.true();
+    expect(wrapper.vm.extensionOK(new File(['olia'], 'olia/music.mp3'))).is.false();
   });
 });
