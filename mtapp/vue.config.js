@@ -3,7 +3,7 @@ module.exports = {
     'vuetify',
   ],
   lintOnSave: false,
-  publicPath: '/music',
+  publicPath: process.env.NODE_ENV === 'production' ? '/music/' : '/',
   devServer: {
     overlay: {
       warnings: true,
@@ -26,7 +26,7 @@ module.exports = {
         return args;
       });
   },
-  // configureWebpack: {
-  //   devtool: 'inline-source-map',
-  // }
+  configureWebpack: {
+    devtool: process.env.NODE_ENV === 'production' ? 'source-map' : 'inline-source-map',
+  }
 };

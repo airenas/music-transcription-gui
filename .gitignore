@@ -107,3 +107,4 @@ Makefile.options
 mtapp/public/at/**
 mtapp/.build.done
 .vscode/**
+build/deploy/**
