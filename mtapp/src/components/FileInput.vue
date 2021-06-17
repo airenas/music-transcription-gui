@@ -13,8 +13,11 @@
               'drag-on-div': dragInProgress,
             }"
           >
-            <div :hidden="fileLoaded" class="drop-info" id="dropInfo">Įtempkite failą</div>
-            <v-file-input id="fileInput"
+            <div :hidden="fileLoaded" class="drop-info" id="dropInfo">
+              Įtempkite failą
+            </div>
+            <v-file-input
+              id="fileInput"
               outlined
               dense
               hide-details
@@ -25,7 +28,8 @@
               label="Audio failas"
               accept=".wav"
             ></v-file-input>
-            <audio id="audio"
+            <audio
+              id="audio"
               :src="audioURL"
               controls
               :hidden="!fileLoaded"
@@ -47,7 +51,8 @@
               ></v-autocomplete>
             </div>
             <div class="button-div">
-              <v-btn id='transcribeButton'
+              <v-btn
+                id="transcribeButton"
                 dense
                 color="primary"
                 hide-details
@@ -112,7 +117,8 @@ export default {
       }
     },
     updateControls() {
-      this.canTranscribe = this.file !== null && (this.selInstrument || '') !== '';
+      this.canTranscribe =
+        this.file !== null && (this.selInstrument || "") !== "";
       this.fileLoaded = this.file !== null && this.file !== undefined;
     },
     transcribe() {
@@ -145,47 +151,53 @@ export default {
 };
 </script>
 
-<style lang="sass">
-@import '~vuetify/src/styles/main.sass'
-.audio-control
-  width: 100%
-  padding-top: 10px
+<style lang="scss">
+.audio-control {
+  width: 100%;
+  padding-top: 10px;
+}
 
-.button-div
+.button-div {
   // width: 100%
-  padding-top: 10px
-  margin-left: auto
-  text-align: left
-  margin-right: 0px
+  padding-top: 10px;
+  margin-left: auto;
+  text-align: left;
+  margin-right: 0px;
+}
 
-.combo-div
-  width: 100%
+.combo-div {
+  width: 100%;
   // max-width: 250px
-  padding-top: 10px
-  padding-right: 10px
+  padding-top: 10px;
+  padding-right: 10px;
+}
 
-.drop-info
-  font-size: 110%
-  font-style: italic
-  padding-bottom: 10px
+.drop-info {
+  font-size: 110%;
+  font-style: italic;
+  padding-bottom: 10px;
+}
 
-.simple-border-div
-  margin: 2px
-  padding: 2px
-  width: 100%
-  max-width: 500px
+.simple-border-div {
+  margin: 2px;
+  padding: 2px;
+  width: 100%;
+  max-width: 500px;
+}
 
-.drag-on-div
-  border: solid 2px map-get($indigo, base)
-  margin: 2px
-  padding: 2px
-  width: 100%
-  max-width: 500px
+.drag-on-div {
+  border: solid 2px #3f51b5;
+  margin: 2px;
+  padding: 2px;
+  width: 100%;
+  max-width: 500px;
+}
 
-.combo-button-div
-  text-align: right
-  align-items: center
-  display: flex
-  width: 100%
-  max-width: 500px
+.combo-button-div {
+  text-align: right;
+  align-items: center;
+  display: flex;
+  width: 100%;
+  max-width: 500px;
+}
 </style>
