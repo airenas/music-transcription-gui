@@ -112,8 +112,8 @@ export default {
       }
     },
     updateControls() {
-      this.canTranscribe = this.file && (this.selInstrument || '') !== '';
-      this.fileLoaded = this.file && this.file !== undefined;
+      this.canTranscribe = this.file !== null && (this.selInstrument || '') !== '';
+      this.fileLoaded = this.file !== null && this.file !== undefined;
     },
     transcribe() {
       this.working = true;
