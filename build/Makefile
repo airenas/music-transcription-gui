@@ -2,7 +2,7 @@
 #####################################################################################
 dist_dir=$(CURDIR)/deploy
 main_dir=../mtapp
-service=mt-app
+service=music-transcription-app
 version=$(APP_VERSION)
 commit_count=$(shell git rev-list --count HEAD)
 #####################################################################################
