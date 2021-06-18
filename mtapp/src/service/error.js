@@ -4,10 +4,13 @@ export default class ErrorService {
       console.error(es);
       if (es.includes('Request failed with status code 500')) {
         return 'Serviso klaida (500)';
-      } if (es.includes('Network Error')) {
+      } if (es.includes('Request failed with status code 404')) {
+        return 'Servisas nepasiekiamas (404)';
+      }
+       if (es.includes('Network Error')) {
         return 'Servisas nepasiekiamas';
       }
 
-      return 'Įvyko nenumatyta klaida';
+      return es;
     }
 }
