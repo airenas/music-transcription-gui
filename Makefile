@@ -50,6 +50,8 @@ build: $(mtapp_files)
 pack: mtapp-component-$(version).tar.gz
 mtapp-component-$(version).tar.gz: $(mtapp_dist_files) 
 	tar -czf $@ -C $(dist_dir) dist
+all:
+	$(MAKE) clean init build-app && $(MAKE) build && $(MAKE) pack
 #####################################################################################
 put-component:
 	scp mtapp-component-$(version).tar.gz $(component-share)
