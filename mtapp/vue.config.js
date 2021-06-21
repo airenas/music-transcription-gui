@@ -5,6 +5,7 @@ module.exports = {
   lintOnSave: false,
   publicPath: process.env.NODE_ENV === 'production' ? '/music/' : '/',
   devServer: {
+    host: 'wav2mid.com',
     overlay: {
       warnings: true,
       errors: false,
