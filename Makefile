@@ -1,8 +1,10 @@
 -include Makefile.options
 #####################################################################################
 main_dir=mtapp
-build_dir=build
 APP_VERSION?=0.1
+dist_dir?=$(CURDIR)/deploy
+build_dir=build
+port?=8080
 #####################################################################################
 init: 
 	cd $(main_dir) && $(MAKE) init
@@ -19,6 +21,31 @@ dpush:
 clean:
 	cd $(main_dir) && $(MAKE) clean
 	cd $(build_dir) && $(MAKE) clean
+	rm -rf $(dist_dir)
+#####################################################################################
+serve-deployed:
+	docker run -p $(port):80 -v $(dist_dir)/html:/usr/share/nginx/html nginx:1.17.9
+#####################################################################################
+files=at css js favicon.ico index.html info
+music_files=$(patsubst %, $(dist_dir)/html/%, $(files))
+$(dist_dir)/html:
+	mkdir -p $@
+$(dist_dir)/html/%: mtapp/dist/% | $(dist_dir)/html
+	cp -r $< $@
+$(dist_dir)/html/favicon.ico: mtapp/dist/favicon.ico | $(dist_dir)/html
+	cp $< $@
+$(dist_dir)/html/index.html: public/index.html | $(dist_dir)/html
+	cp $< $@		
+$(dist_dir)/html/info: $(dist_dir)/html | $(dist_dir)/html
+	echo version : $(version) > $@
+	echo date    : $(shell date --rfc-3339=seconds) >> $@
+build: $(music_files) 
+pack: music-component-$(version).tar.gz
+music-component-$(version).tar.gz: $(music_files) 
+	tar -czf $@ -C $(dist_dir) html
+#####################################################################################
+put-component:
+	scp music-component-$(version).tar.gz $(component-share)
 
 .PHONY:
 	clean build
