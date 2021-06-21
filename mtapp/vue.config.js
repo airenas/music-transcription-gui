@@ -3,7 +3,8 @@ module.exports = {
     'vuetify',
   ],
   lintOnSave: false,
-  publicPath: process.env.NODE_ENV === 'production' ? '/music/' : '/',
+  publicPath: process.env.NODE_ENV === 'production' ? '/' : '/',
+  filenameHashing: false,
   devServer: {
     host: 'wav2mid.com',
     overlay: {
