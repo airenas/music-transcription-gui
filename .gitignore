@@ -108,3 +108,5 @@ mtapp/.init.done
 build/deploy/**
 mtapp/src/service/version.js
 mtapp/src/service/version.js_
+deploy/**
+mtapp-component-*.tar.gz
