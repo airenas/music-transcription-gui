@@ -1,8 +1,6 @@
 #############################################################################
 -include ../Makefile.options
 deploy_dir?=dist
-commit_count=$(shell git rev-list --count HEAD)
-version=$(APP_VERSION).$(commit_count)
 #############################################################################
 .init.done: public/at/LICENSE.alphaTab public/at/alphaTab.min.js public/at/font \
 	public/at/soundfont updateVersion
