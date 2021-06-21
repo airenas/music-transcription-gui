@@ -28,7 +28,7 @@ jobs:
       uses: actions/setup-node@v1
       with:
         node-version: ${{ matrix.node-version }}
-    - run: make build
+    - run: make init build
     - run: npm run test:coverage
     
     - name: Fix lcov paths
