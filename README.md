@@ -28,6 +28,12 @@ Web page for music audio transcription. Tested with node >= v14.17.0, npm >= 6.1
     make test
 ```
 
+## Prepare app as component
+
+```bash
+    make all
+```
+
 ## License
 
 Copyright © 2021, [Airenas Vaičiūnas](https://github.com/airenas), [intelektika.lt](http://intelektika.lt).
