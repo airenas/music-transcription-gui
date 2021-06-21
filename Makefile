@@ -26,9 +26,13 @@ clean:
 serve-deployed:
 	docker run -p $(port):80 -v $(dist_dir)/html:/usr/share/nginx/html nginx:1.17.9
 #####################################################################################
-files=at css js favicon.ico index.html info
-music_files=$(patsubst %, $(dist_dir)/html/%, $(files))
+dist_files=at css js info
+files=$(dist_files) favicon.ico index.html
+mtapp_files=$(patsubst %, $(dist_dir)/html/%, $(files))
+mtapp_dist_files=$(patsubst %, $(dist_dir)/dist/%, $(dist_files))
 $(dist_dir)/html:
+	mkdir -p $@
+$(dist_dir)/dist:
 	mkdir -p $@
 $(dist_dir)/html/%: mtapp/dist/% | $(dist_dir)/html
 	cp -r $< $@
@@ -39,13 +43,15 @@ $(dist_dir)/html/index.html: public/index.html | $(dist_dir)/html
 $(dist_dir)/html/info: $(dist_dir)/html | $(dist_dir)/html
 	echo version : $(version) > $@
 	echo date    : $(shell date --rfc-3339=seconds) >> $@
-build: $(music_files) 
-pack: music-component-$(version).tar.gz
-music-component-$(version).tar.gz: $(music_files) 
-	tar -czf $@ -C $(dist_dir) html
+$(dist_dir)/dist/%: $(dist_dir)/html/% | $(dist_dir)/dist
+	cp -r $< $@
+build: $(mtapp_files) 
+pack: mtapp-component-$(version).tar.gz
+mtapp-component-$(version).tar.gz: $(mtapp_dist_files) 
+	tar -czf $@ -C $(dist_dir) dist
 #####################################################################################
 put-component:
-	scp music-component-$(version).tar.gz $(component-share)
+	scp mtapp-component-$(version).tar.gz $(component-share)
 
 .PHONY:
 	clean build
