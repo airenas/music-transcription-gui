@@ -1,10 +1,18 @@
 #############################################################################
 -include ../Makefile.options
 deploy_dir?=dist
+commit_count=$(shell git rev-list --count HEAD)
+version=$(APP_VERSION).$(commit_count)
 #############################################################################
 .init.done: public/at/LICENSE.alphaTab public/at/alphaTab.min.js public/at/font \
-	public/at/soundfont
+	public/at/soundfont updateVersion
 	touch $@
+
+updateVersion: makeVersionFile
+	rsync --checksum src/service/version.js_ src/service/version.js
+
+makeVersionFile: 
+	cat src/service/version.js.in | envsubst > src/service/version.js_
 
 public/at/alphaTab.min.js: node_modules/@coderline/alphatab/dist/alphaTab.min.js 
 	cp $< $@
@@ -13,12 +21,12 @@ public/at/LICENSE.alphaTab: node_modules/@coderline/alphatab/LICENSE
 public/at/%: node_modules/@coderline/alphatab/dist/% 
 	cp -r $< $@
 
-build: .init.done 
+build: .init.done
 	npm run build
 test: .init.done 
 	npm run test:unit
 #############################################################################
-serve: .init.done 
+serve: .init.done updateVersion
 	npm run serve
 init:
 	npm ci
@@ -32,3 +40,5 @@ clean-deploy:
 clean: 
 	rm -rf dist
 	rm -rf node_modules
+
+.EXPORT_ALL_VARIABLES:	

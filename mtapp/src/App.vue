@@ -12,6 +12,7 @@
 import FileInput from './components/FileInput.vue';
 import MusicXMLPlayer from './components/MusicXMLPlayer.vue';
 import Transcriber from './service/transcriber';
+import Version from './service/version';
 
 export default {
   name: 'App',
@@ -21,7 +22,8 @@ export default {
     MusicXMLPlayer,
   },
   mounted() {
-    console.log('URL:', this.url);
+    console.log('URL    :', this.url);
+    console.log('Version:', Version.buildVersion);
     Transcriber.initURL(this.url);
   },
   beforeMount: function () {

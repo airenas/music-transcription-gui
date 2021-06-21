@@ -106,3 +106,5 @@ mtapp/public/at/**
 mtapp/.init.done
 .vscode/**
 build/deploy/**
+mtapp/src/service/version.js
+mtapp/src/service/version.js_
