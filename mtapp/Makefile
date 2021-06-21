@@ -18,7 +18,7 @@ build: .init.done
 test: .init.done 
 	npm run test:unit
 #############################################################################
-serve: .build.done 
+serve: .init.done 
 	npm run serve
 init:
 	npm ci
