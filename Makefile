@@ -1,3 +1,4 @@
+-include Makefile.options.local
 -include Makefile.options
 #####################################################################################
 main_dir=mtapp
