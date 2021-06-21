@@ -7,7 +7,7 @@ export default class ErrorService {
       } if (es.includes('Request failed with status code 404')) {
         return 'Servisas nepasiekiamas (404)';
       }
-       if (es.includes('Network Error')) {
+      if (es.includes('Network Error')) {
         return 'Servisas nepasiekiamas';
       }
 

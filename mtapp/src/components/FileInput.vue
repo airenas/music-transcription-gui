@@ -186,6 +186,7 @@ export default {
 
 .drag-on-div {
   border: solid 2px #3f51b5;
+  border-radius: 4px;
   margin: 2px;
   padding: 2px;
   width: 100%;

@@ -1,5 +1,5 @@
 <template>
-  <v-app>
+  <v-app class="app-div">
     <v-main>
       <FileInput />
       <v-spacer></v-spacer>
@@ -26,12 +26,21 @@ export default {
     console.log('Version:', Version.buildVersion);
     Transcriber.initURL(this.url);
   },
-  beforeMount: function () {
+  beforeMount() {
     const el = document.getElementById('app');
     this.url = el.attributes['data-url'].value;
   },
   data: () => ({
-    url: null
+    url: null,
   }),
 };
 </script>
+
+<style>
+.v-application--wrap {
+  min-height: auto !important;
+}
+.app-div {
+  min-height: auto;
+}
+</style>
